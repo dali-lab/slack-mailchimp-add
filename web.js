@@ -47,10 +47,10 @@ app.post('/', function(req,res){
     
     var affiliations = ['student','alum','faculty','other'];
     var textArray = text.split(" ");
-    var firstName;
-    var lastName;
-    var email;
-    var affiliation;
+    var firstName = null;
+    var lastName = null;
+    var email = null;
+    var affiliation = null;
     
     var potentialAffiliation = textArray.pop();
     
