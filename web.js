@@ -72,11 +72,11 @@ app.post('/', function(req,res){
       }   
     }
   }
-  res.send('name: ' + firstName + '|' + lastName + 'email: ' + email + 'affiliation: ' +affiliation )
-
   
-  if(email != undefined){
+  if(email == undefined){
   		res.send('/chimp FirstName LastName name@email.com affiliation.  Everything but email is optional.  Possible affiliations: student, faculty, alum, other');	
+  }else{
+        res.send('name: ' + firstName + '|' + lastName + 'email: ' + email + 'affiliation: ' +affiliation )
   }
   
 	
