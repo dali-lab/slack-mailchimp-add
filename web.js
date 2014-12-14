@@ -41,7 +41,7 @@ app.post('/', function(req,res){
 	
 	var text = req.body.text;
   var token = req.body.token;
-  var responsed = false;
+  var responded = false;
   
   if(token == process.env.SLACK_TOKEN){
     
@@ -74,7 +74,7 @@ app.post('/', function(req,res){
     
     res.send('name: ' + firstName + '|' + lastName + 'email: ' + email + 'affiliation: ' +affiliation )
     
-    responsed=true;
+    responded=true;
   }
   
   if(!responded){
