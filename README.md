@@ -10,6 +10,7 @@ Run using the `/chimp` command in slack
 
 
 default affiliation is "student".  To change this affiliation do this:
+
 `/chimp FirstName LastName name@email.com student`
 
 `/chimp FirstName LastName name@email.com faculty`
