@@ -71,13 +71,11 @@ app.post('/', function(req,res){
         firstName = firstName + ' ' +  textArray[i];
       }   
     }
-    
-    res.send('name: ' + firstName + '|' + lastName + 'email: ' + email + 'affiliation: ' +affiliation )
-    
-    responded=true;
   }
+  res.send('name: ' + firstName + '|' + lastName + 'email: ' + email + 'affiliation: ' +affiliation )
+
   
-  if(!responded){
+  if(!email){
   		res.send('/chimp FirstName LastName name@email.com affiliation.  Everything but email is optional.  Possible affiliations: student, faculty, alum, other');	
   }
   
