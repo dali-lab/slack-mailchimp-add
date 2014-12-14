@@ -74,7 +74,7 @@ app.post('/', function(req,res){
     }
   }
          
-  res.send('array length: ' + startLength ' name: ' + firstName + '|' + lastName + ' email: ' + email + ' affiliation: ' +affiliation )
+  res.send('array length: ' + startLength ' name: ' + firstName + '|' + lastName + ' email: ' + email + ' affiliation: ' +affiliation );
 
   
 //  if(email == undefined){
