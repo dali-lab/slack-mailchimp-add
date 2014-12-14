@@ -47,14 +47,15 @@ app.post('/', function(req,res){
     
     var affiliations = ['student','alum','faculty','other'];
     var textArray = text.split(" ");
-    var firstName = null;
-    var lastName = null;
-    var email = null;
-    var affiliation = null;
+    var startLength = textArray.length;
+    var firstName;
+    var lastName;
+    var email;
+    var affiliation;
     
     var potentialAffiliation = textArray.pop();
     
-    //if it is not an affiliation, assume te last element was an email
+    //if it is not an affiliation, assume the last element was an email
     if (affiliations.indexOf(potentialAffiliation) == -1){
       email = potentialAffiliation
     }
@@ -72,12 +73,15 @@ app.post('/', function(req,res){
       }   
     }
   }
+         
+  res.send('array length: ' + startLength ' name: ' + firstName + '|' + lastName + ' email: ' + email + ' affiliation: ' +affiliation )
+
   
-  if(email == undefined){
-  		res.send('/chimp FirstName LastName name@email.com affiliation.  Everything but email is optional.  Possible affiliations: student, faculty, alum, other');	
-  }else{
-        res.send('name: ' + firstName + '|' + lastName + 'email: ' + email + 'affiliation: ' +affiliation )
-  }
+//  if(email == undefined){
+//  		res.send('/chimp FirstName LastName name@email.com affiliation.  Everything but email is optional.  Possible affiliations: student, faculty, alum, other');	
+//  }else{ 
+//        res.send(' name: ' + firstName + '|' + lastName + ' email: ' + email + ' affiliation: ' +affiliation )
+//  }
   
 	
 });
