@@ -138,21 +138,22 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
     };
 
     
-    var success = true;
-    
     api.call('lists', 'subscribe', mailchimpRequest, function (error, data) {
        if (error){
              console.log(error.message);
-//             success = false;
              }
-//            return error.message;
         else{
-             success = false;
-//          return JSON.stringify(data); // Do something with your data!
         }
     });
     
-       return ((success ? 'Attempted to subscribe:' : 'ERROR: failed to subscribe ') + firstName + '|' + lastName + ' {' + emailIn +'} ' +' in group: ' +apiAffiliation );
+    if(!firstName){
+    firstName = '';
+    }
+    if(!lastName){
+        lastName = '';
+    }
+    
+    return (('Attempted to subscribe: ' + firstName + '|' + lastName + ' {' + emailIn +'} ' +' in group: ' +apiAffiliation );
 
     
 
