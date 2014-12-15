@@ -52,10 +52,10 @@ app.post('/notifyOfSubscribe', function(req,res){
 
   var slackPost;
   if(req.body.type == 'unsubscribe'){
-    slackPost = 'User unsubscribed from DALI Newsletter:'; 
+    slackPost = 'User unsubscribed from DALI Newsletter: '; 
   }
   if(req.body.type == 'subscribe'){
-    slackPost = 'User unsubscribed from DALI Newsletter:'; 
+    slackPost = 'User subscribed to DALI Newsletter: '; 
   }
   
   slackPost = slackPost + req.body.data.email;
