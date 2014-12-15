@@ -3,6 +3,7 @@
 
 var express = require("express");
 var logfmt = require("logfmt");
+var MailChimpAPI = require('mailchimp').MailChimpAPI;
 var app = express();
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -20,6 +21,8 @@ var options = {
   path: '/api/newdeveloper/groups/0/action',
   method: 'PUT'
 };
+
+
 
 function lightsWithData(data){
 	var request = http.request(options, function(res) {
@@ -39,9 +42,9 @@ function lightsWithData(data){
 
 app.post('/', function(req,res){
 	
-	var text = req.body.text;
-  var token = req.body.token;
-  var responded = false;
+   var text = req.body.text;
+   var token = req.body.token;
+   var responded = false;
   
   if(token == process.env.SLACK_TOKEN){
     
@@ -67,24 +70,59 @@ app.post('/', function(req,res){
     lastName = textArray.pop();
     
     //if there is anything left, concat it to create the first name
-    if(textArray.length > 0){         
+    if(textArray.length > 0){
+      firstName = '';
       for (var i = 0; i < textArray.length; ++i) {
         firstName = firstName + ' ' +  textArray[i];
       }   
     }
+    else{
+         firstName = lastName;
+         lastName = undefined;
+         
+    }
   }
          
-  res.send('array length: ' + startLength ' name: ' + firstName + '|' + lastName + ' email: ' + email + ' affiliation: ' +affiliation );
-
-  
-//  if(email == undefined){
-//  		res.send('/chimp FirstName LastName name@email.com affiliation.  Everything but email is optional.  Possible affiliations: student, faculty, alum, other');	
-//  }else{ 
-//        res.send(' name: ' + firstName + '|' + lastName + ' email: ' + email + ' affiliation: ' +affiliation )
-//  }
+  if(email == undefined){
+  		res.send('/chimp FirstName LastName name@email.com affiliation.  Everything but email is optional.  Possible affiliations: student, faculty, alum, other');	
+  }else{
+        res.send(subscribeToMailchimp(firstName, lastName, email, affiliation));
+  }
   
 	
 });
+
+
+function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
+
+    try {
+        var api = new MailChimpAPI(process.env.MAILCHIMP_KEY, { version : '2.0' });
+    } catch (error) {
+        console.log(error.message);
+    }
+    
+    var mailchimpRequest = {
+        id: '7041ef63c4',
+        email: { email: emailIn},
+        double_optin: false,
+        merge_vars: {
+            EMAIL: emailIn,
+            FNAME: firstName,
+            LNAME: lastName
+        }
+    };
+    
+    api.call('lists', 'subscribe', mailchimpRequest, function (error, data) {
+        if (error)
+            console.log(error.message);
+        else
+            console.log(JSON.stringify(data)); // Do something with your data!
+    });
+
+    return (' name: ' + firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +affiliation );
+
+
+}
 
 //removes the last item from an array and returns it
 function lastItemByRemovingFromArray(ray){
