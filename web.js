@@ -143,10 +143,11 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
     api.call('lists', 'subscribe', mailchimpRequest, function (error, data) {
        if (error){
              console.log(error.message);
-             success = false;
+//             success = false;
              }
 //            return error.message;
         else{
+             success = false;
 //          return JSON.stringify(data); // Do something with your data!
         }
     });
