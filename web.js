@@ -139,7 +139,7 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
 
     api.call('lists', 'subscribe', mailchimpRequest, function (error, data) {
         if (error)
-            consol.log(error.message);
+            return (error.message.stringify);
         else{
             return ('Sucessfully subscribed! name: ' + firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +affiliation );
           
