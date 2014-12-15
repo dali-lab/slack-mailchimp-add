@@ -138,13 +138,17 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
     };
 
     api.call('lists', 'subscribe', mailchimpRequest, function (error, data) {
-        if (error)
-            console.log(error.message);
+       if (error){
+             console.log(error.message);
+             }
+//            return error.message;
         else{
-            return ('Sucessfully subscribed! name: ' + firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +affiliation );
-          
+//          return JSON.stringify(data); // Do something with your data!
         }
     });
+    
+    return ('Sucessfully subscribed! name: ' + firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +affiliation );
+
     
 
 
