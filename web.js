@@ -43,6 +43,11 @@ function notifyStaff(data){
 	request.end();	
 }
 
+app.get('/notifyOfSubscribe', function(req,res){
+  res.send('hello, mailchimp');
+}
+
+
 app.post('/notifyOfSubscribe', function(req,res){
 
 
