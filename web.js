@@ -84,17 +84,17 @@ app.post('/', function(req,res){
     }
   }
          
-  if(email == undefined){
+  if(email == ''){
   		res.send('/chimp FirstName LastName name@email.com affiliation.  Everything but email is optional.  Possible affiliations: student, faculty, alum, other');	
   }else{
-        res.send(subscribeToMailchimp(firstName, lastName, email, affiliation));
+        subscribeToMailchimp(firstName, lastName, email, affiliation,res);
   }
   
 	
 });
 
 
-function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
+function subscribeToMailchimp(firstName, lastName, emailIn, affiliation,res){
 
     try {
         var api = new MailChimpAPI(process.env.MAILCHIMP_KEY, { version : '2.0' });
@@ -140,9 +140,10 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
     
     api.call('lists', 'subscribe', mailchimpRequest, function (error, data) {
        if (error){
-             console.log(error.message);
+            res.send(error.message);
              }
         else{
+            res.send('Subscribed ' + firstName + '|' + lastName + ' {' + emailIn +'} ' +' in group: ' +apiAffiliation );
         }
     });
     
@@ -153,7 +154,7 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
         lastName = '';
     }
     
-    return ('Attempted to subscribe: ' + firstName + '|' + lastName + ' {' + emailIn +'} ' +' in group: ' +apiAffiliation );
+
 
     
 
