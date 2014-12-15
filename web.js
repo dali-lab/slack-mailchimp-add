@@ -61,9 +61,7 @@ app.post('/notifyOfSubscribe', function(req,res){
   slackPost = slackPost + req.body.data.email;
 
   var data = {
-    'text': slackPost,
-    'channel': '#foldlings'
-    
+    'text': slackPost    
   };
   notifyStaff(data);
   res.send('hi');
