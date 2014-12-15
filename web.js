@@ -137,9 +137,13 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
         }
     };
 
+    
+    var success = true;
+    
     api.call('lists', 'subscribe', mailchimpRequest, function (error, data) {
        if (error){
              console.log(error.message);
+             success = false;
              }
 //            return error.message;
         else{
@@ -147,7 +151,8 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
         }
     });
     
-    return ('Sucessfully subscribed! name: ' + firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +affiliation );
+    if(
+       return (sucess ? 'Sucessfully subscribed!' : 'ERROR: failed to subscribe' + name: ' + firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +apiAffiliation );
 
     
 
