@@ -8,15 +8,68 @@ var app = express();
 var bodyParser = require('body-parser')
   app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use( bodyParser.urlencoded({ extended: true }) ); // to support URL-encoded bodies
-var http = require('http'); //the variable doesn't necessarily have to be named http
+var http = require('http');
+var https = require('https');
 app.use(logfmt.requestLogger());
 
 var affiliations = ['student','alum','faculty','other'];
+
+
+function notifyStaff(data){
+	
+	var options2 = {
+	  host: 'hooks.slack.com',
+	  port: 443,
+	  path: process.env.SLACK_WEBHOOK_URL,
+	  method: 'POST',
+    headers: {
+        accept: '*/*'
+    }
+	};
+	
+	var request = https.request(options2, function(res) {
+	  console.log('STATUS: ' + res.statusCode);
+	  console.log('HEADERS: ' + JSON.stringify(res.headers));
+	  res.setEncoding('utf8');
+	  res.on('data', function (chunk) {
+	    console.log('BODY: ' + chunk);
+	  });
+	});
+	request.on('error', function(e) {
+	  console.log('problem with request: ' + e.message);
+	});
+	request.write(JSON.stringify(data));
+  // console.log(JSON.stringify(data));
+	request.end();	
+}
+
+app.post('/notifyOfSubscribe', function(req,res){
+
+
+  var slackPost;
+  if(req.body.type == 'unsubscribe'){
+    slackPost = 'User unsubscribed from DALI Newsletter:'; 
+  }
+  if(req.body.type == 'subscribe'){
+    slackPost = 'User unsubscribed from DALI Newsletter:'; 
+  }
+  
+  slackPost = slackPost + req.body.data.email;
+
+  var data = {
+    'text': slackPost,
+    'channel': '#foldlings'
+    
+  };
+  notifyStaff(data);
+  res.send('hi');
+});
 
 app.post('/', function(req,res){
 	
   var text = req.body.text;
   var token = req.body.token;
+  console.log('user: ' + req.body.user_id + ' | ' + req.body.user_name);
   var responded = false;
   
   if(token == process.env.SLACK_TOKEN){
