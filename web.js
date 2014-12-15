@@ -151,8 +151,7 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
         }
     });
     
-    if(
-       return (sucess ? 'Sucessfully subscribed!' : 'ERROR: failed to subscribe' + name: ' + firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +apiAffiliation );
+       return ((success ? 'Sucessfully subscribed!' : 'ERROR: failed to subscribe') + ' name: '+ firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +apiAffiliation );
 
     
 
