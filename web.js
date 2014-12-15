@@ -22,6 +22,8 @@ var options = {
   method: 'PUT'
 };
 
+var affiliations = ['student','alum','faculty','other'];
+
 
 
 function lightsWithData(data){
@@ -48,7 +50,6 @@ app.post('/', function(req,res){
   
   if(token == process.env.SLACK_TOKEN){
     
-    var affiliations = ['student','alum','faculty','other'];
     var textArray = text.split(" ");
     var startLength = textArray.length;
     var firstName;
@@ -101,6 +102,29 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
         console.log(error.message);
     }
     
+    var apiAffiliation = "Students";
+    switch (affiliation){
+            //var affiliations = ['student','alum','faculty','other'];
+        case  affiliations[0]:
+            //student
+            apiAffiliation = "Students"
+            break;
+        case  affiliations[1]:
+            //alum
+            apiAffiliation = "Alumni"
+            break;
+        case  affiliations[2]:
+            //faculty
+            apiAffiliation = "Faculty/Staff"
+            break;
+        case  affiliations[3]:
+            //other
+            apiAffiliation = "Other"
+            break;
+            
+    }
+    
+    
     var mailchimpRequest = {
         id: '7041ef63c4',
         email: { email: emailIn},
@@ -108,18 +132,19 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
         merge_vars: {
             EMAIL: emailIn,
             FNAME: firstName,
-            LNAME: lastName
+            LNAME: lastName,
+            groupings:[ {id: '11485', groups: [apiAffiliation] }]
         }
     };
-    
+
     api.call('lists', 'subscribe', mailchimpRequest, function (error, data) {
         if (error)
             console.log(error.message);
         else
             console.log(JSON.stringify(data)); // Do something with your data!
     });
-
-    return (' name: ' + firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +affiliation );
+    
+    return ('Sucessfully subscribed! name: ' + firstName + '|' + lastName + ' email: ' + emailIn + ' affiliation: ' +affiliation );
 
 
 }
