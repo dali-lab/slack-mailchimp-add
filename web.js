@@ -153,7 +153,7 @@ function subscribeToMailchimp(firstName, lastName, emailIn, affiliation){
         lastName = '';
     }
     
-    return (('Attempted to subscribe: ' + firstName + '|' + lastName + ' {' + emailIn +'} ' +' in group: ' +apiAffiliation );
+    return ('Attempted to subscribe: ' + firstName + '|' + lastName + ' {' + emailIn +'} ' +' in group: ' +apiAffiliation );
 
     
 
